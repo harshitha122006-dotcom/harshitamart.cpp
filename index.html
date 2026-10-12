@@ -1,208 +1,294 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Harshi Mart</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: #f5f5f5;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshi Mart</title>
 
-        header {
-            background: #6c2bd9;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            background: white;
-            padding: 15px;
-            text-align: center;
-        }
-
-        nav button {
-            margin: 5px;
-            padding: 10px 20px;
-            border: 0;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .container {
-            padding: 25px;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px #ccc;
-            text-align: center;
-        }
-
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .card button {
-            background: #6c2bd9;
-            color: white;
-            border: 0;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .login {
-            background: white;
-            max-width: 350px;
-            margin: 25px auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 8px;
-        }
-
-        .login button {
-            padding: 10px 30px;
-            background: #6c2bd9;
-            color: white;
-            border: 0;
-            border-radius: 5px;
-        }
-    </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#333}
+header{background:#6c2bd9;color:white;padding:22px;text-align:center}
+header h1{margin:0}
+nav{background:white;padding:12px;text-align:center;box-shadow:0 2px 5px #ddd}
+button{cursor:pointer;border:0;border-radius:6px;padding:11px 16px}
+nav button{margin:4px;background:#eee}
+nav button:hover{background:#e2d5ff}
+.container{padding:24px;max-width:1400px;margin:auto}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px}
+.card{background:white;padding:15px;border-radius:10px;box-shadow:0 2px 8px #ddd;text-align:center}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+.primary{background:#6c2bd9;color:white}
+.primary:hover{background:#501caf}
+.panel{background:white;max-width:600px;margin:20px auto;padding:24px;border-radius:10px;box-shadow:0 2px 8px #ddd}
+input,select,textarea{display:block;width:100%;padding:12px;margin:9px 0 16px;border:1px solid #ccc;border-radius:5px;font:inherit}
+textarea{resize:vertical;min-height:80px}
+label{font-weight:bold}
+.item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ddd}
+.total{font-size:21px;font-weight:bold}
+.note{font-size:13px;color:#6c2bd9;line-height:1.5}
+.payment-option{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #ddd;border-radius:6px;margin:8px 0;cursor:pointer}
+.payment-option input{width:auto;margin:0}
+footer{text-align:center;background:#eee;padding:18px;margin-top:30px}
+@media(max-width:600px){.container{padding:12px}.panel{padding:16px}}
+</style>
 </head>
 
 <body>
-
 <header>
-    <h1>🛍️ HARSHI MART</h1>
-    <p>Your Online Shopping Store</p>
+<h1>🛍️ HARSHI MART</h1>
+<p>Your Online Shopping Store</p>
 </header>
 
 <nav>
-    <button onclick="showProducts()">Products</button>
-    <button onclick="showLogin()">Login</button>
-    <button onclick="showRegister()">Register</button>
-    <button onclick="showCart()">🛒 Cart</button>
+<button onclick="showProducts()">Products</button>
+<button onclick="showLogin()">Login</button>
+<button onclick="showRegister()">Register</button>
+<button onclick="showCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
 </nav>
 
-<div class="container" id="app">
+<main class="container" id="app"></main>
 
-    <h2>Welcome to Harshi Mart</h2>
-    <p>Quality products at affordable prices.</p>
-
-    <div class="products" id="products"></div>
-
-</div>
+<footer>© 2026 Harshi Mart | Student Project Demo</footer>
 
 <script>
+"use strict";
 
 let cart = [];
 
 const products = [
-    ["Laptop",57000,"https://images.unsplash.com/photo-1496181133206-80ce9b88a853"],
-    ["Mouse",800,"https://images.unsplash.com/photo-1527814050087-3793815479db"],
-    ["Keyboard",1200,"https://images.unsplash.com/photo-1587829741301-dc798b83add3"],
-    ["Headphones",1800,"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"],
-    ["Smart Watch",2500,"https://images.unsplash.com/photo-1523275335684-37898b6baf30"],
-    ["Backpack",1500,"https://images.unsplash.com/photo-1553062407-98eeb64c6a62"],
-    ["Shoes",2200,"https://images.unsplash.com/photo-1542291026-7eec264c27ff"],
-    ["Kurti",1500,"https://images.unsplash.com/photo-1610030469983-98e550d6193c"],
-    ["T-Shirt",900,"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"],
-    ["Sunglasses",700,"https://images.unsplash.com/photo-1511499767150-a48a237f0083"]
+["Laptop",57000,"https://images.unsplash.com/photo-1496181133206-80ce9b88a853"],
+["Mouse",800,"https://images.unsplash.com/photo-1527814050087-3793815479db"],
+["Keyboard",1200,"https://images.unsplash.com/photo-1587829741301-dc798b83add3"],
+["Headphones",1800,"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"],
+["Smart Watch",2500,"https://images.unsplash.com/photo-1523275335684-37898b6baf30"],
+["Backpack",1500,"https://images.unsplash.com/photo-1553062407-98eeb64c6a62"],
+["Shoes",2200,"https://images.unsplash.com/photo-1542291026-7eec264c27ff"],
+["Kurti",1500,"https://images.unsplash.com/photo-1610030469983-98e550d6193c"],
+["T-Shirt",900,"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"],
+["Sunglasses",700,"https://images.unsplash.com/photo-1511499767150-a48a237f0083"]
 ];
 
-function showProducts() {
+function money(amount){
+    return "₹" + amount.toLocaleString("en-IN");
+}
 
-    document.getElementById("app").innerHTML =
-    "<h2>Our Products</h2><div class='products' id='products'></div>";
+function updateCartCount(){
+    document.getElementById("cartCount").textContent=cart.length;
+}
 
-    let html = "";
+function showProducts(){
+    let html="<h2>Our Products</h2><p>Quality products at affordable prices.</p><div class='products'>";
 
-    products.forEach((p,i) => {
-
-        html += `
+    products.forEach((p,i)=>{
+        html+=`
         <div class="card">
-            <img src="${p[2]}?auto=format&fit=crop&w=400&q=80">
+            <img src="${p[2]}?auto=format&fit=crop&w=400&q=80" alt="${p[0]}" loading="lazy">
             <h3>${p[0]}</h3>
-            <p>₹${p[1]}</p>
-            <button onclick="addCart(${i})">Add to Cart</button>
+            <p><strong>${money(p[1])}</strong></p>
+            <button class="primary" onclick="addCart(${i})">Add to Cart</button>
         </div>`;
     });
 
-    document.getElementById("products").innerHTML = html;
+    html+="</div>";
+    document.getElementById("app").innerHTML=html;
 }
 
-function addCart(i) {
+function addCart(i){
     cart.push(products[i]);
-    alert(products[i][0] + " added to cart!");
+    updateCartCount();
+    alert(products[i][0]+" added to cart!");
 }
 
-function showCart() {
+function showCart(){
+    const app=document.getElementById("app");
 
-    let html = "<h2>🛒 Your Cart</h2>";
-
-    if(cart.length === 0) {
-        html += "<p>Your cart is empty.</p>";
-    } else {
-        cart.forEach(p => {
-            html += `<p>${p[0]} - ₹${p[1]}</p>`;
-        });
+    if(!cart.length){
+        app.innerHTML=`<div class="panel"><h2>🛒 Your Cart</h2>
+        <p>Your cart is empty.</p>
+        <button class="primary" onclick="showProducts()">Continue Shopping</button></div>`;
+        return;
     }
 
-    document.getElementById("app").innerHTML = html;
+    let total=0;
+    let html="<div class='panel'><h2>🛒 Your Cart</h2>";
+
+    cart.forEach((p,i)=>{
+        total+=p[1];
+        html+=`<div class="item"><span>${p[0]} — ${money(p[1])}</span>
+        <button onclick="removeItem(${i})">Remove</button></div>`;
+    });
+
+    html+=`<p class="total">Total: ${money(total)}</p>
+    <button class="primary" onclick="showCheckout()">Proceed to Checkout</button>
+    <button onclick="showProducts()">Continue Shopping</button></div>`;
+
+    app.innerHTML=html;
 }
 
-function showLogin() {
+function removeItem(i){
+    cart.splice(i,1);
+    updateCartCount();
+    showCart();
+}
 
-    document.getElementById("app").innerHTML = `
-    <div class="login">
+function showCheckout(){
+    if(!cart.length){
+        alert("Your cart is empty!");
+        showCart();
+        return;
+    }
+
+    const total=cart.reduce((sum,p)=>sum+p[1],0);
+
+    document.getElementById("app").innerHTML=`
+    <div class="panel">
+        <h2>📦 Checkout</h2>
+        <h3>Delivery Details</h3>
+
+        <form onsubmit="placeOrder(event)">
+            <label for="customerName">Full Name</label>
+            <input id="customerName" maxlength="100" required placeholder="Enter your full name">
+
+            <label for="phone">Mobile Number</label>
+            <input id="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required placeholder="10-digit mobile number">
+
+            <label for="address">Delivery Address</label>
+            <textarea id="address" maxlength="300" required placeholder="Door number, street, area"></textarea>
+
+            <label for="city">City / Town</label>
+            <input id="city" maxlength="80" required placeholder="Enter your city">
+
+            <label for="pincode">PIN Code</label>
+            <input id="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required placeholder="6-digit PIN code">
+
+            <h3>Order Summary</h3>
+            ${cart.map(p=>`<div class="item"><span>${p[0]}</span><span>${money(p[1])}</span></div>`).join("")}
+            <p class="total">Total Amount: ${money(total)}</p>
+
+            <h3>Payment Method</h3>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="Cash on Delivery" checked>
+                <span>💵 Cash on Delivery (COD)</span>
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="UPI Demo">
+                <span>📱 UPI (Demo)</span>
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="Card Demo">
+                <span>💳 Debit / Credit Card (Demo)</span>
+            </label>
+
+            <p class="note">Student demo only: UPI and card payments are not connected to a payment gateway. No actual payment will be taken.</p>
+
+            <button type="submit" class="primary">Place Order</button>
+            <button type="button" onclick="showCart()">Back to Cart</button>
+        </form>
+    </div>`;
+}
+
+function placeOrder(event){
+    event.preventDefault();
+
+    if(!cart.length){
+        alert("Your cart is empty!");
+        showCart();
+        return;
+    }
+
+    const name=document.getElementById("customerName").value.trim();
+    const phone=document.getElementById("phone").value.trim();
+    const address=document.getElementById("address").value.trim();
+    const city=document.getElementById("city").value.trim();
+    const pincode=document.getElementById("pincode").value.trim();
+    const payment=document.querySelector('input[name="payment"]:checked').value;
+
+    if(!/^[0-9]{10}$/.test(phone)){
+        alert("Enter a valid 10-digit mobile number.");
+        return;
+    }
+
+    if(!/^[0-9]{6}$/.test(pincode)){
+        alert("Enter a valid 6-digit PIN code.");
+        return;
+    }
+
+    const total=cart.reduce((sum,p)=>sum+p[1],0);
+    const orderId="HM"+Date.now().toString().slice(-8);
+
+    document.getElementById("app").innerHTML=`
+    <div class="panel">
+        <h2>✅ Demo Order Confirmed!</h2>
+        <p>Thank you for shopping with Harshi Mart, <strong>${escapeHTML(name)}</strong>!</p>
+        <p><strong>Demo Order ID:</strong> ${orderId}</p>
+        <p><strong>Mobile:</strong> ${escapeHTML(phone)}</p>
+        <p><strong>Delivery Address:</strong> ${escapeHTML(address)}, ${escapeHTML(city)} - ${escapeHTML(pincode)}</p>
+        <p><strong>Payment Method:</strong> ${escapeHTML(payment)}</p>
+        <p class="total">Order Total: ${money(total)}</p>
+        <p class="note">This is a frontend demonstration. The order is not saved to a server or database, and no payment has been processed.</p>
+        <button class="primary" onclick="showProducts()">Continue Shopping</button>
+    </div>`;
+
+    cart=[];
+    updateCartCount();
+}
+
+function escapeHTML(value){
+    return value.replace(/[&<>"']/g,c=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[c]);
+}
+
+function showLogin(){
+    document.getElementById("app").innerHTML=`
+    <div class="panel">
         <h2>Login</h2>
-        <input id="loginUser" placeholder="Username">
-        <input id="loginPass" type="password" placeholder="Password">
-        <button onclick="login()">Login</button>
+        <form onsubmit="login(event)">
+            <label>Username</label>
+            <input required placeholder="Enter username">
+            <label>Password</label>
+            <input type="password" required placeholder="Enter password">
+            <button class="primary" type="submit">Login</button>
+        </form>
+        <p class="note">Demo only: login is not connected to real authentication.</p>
     </div>`;
 }
 
-function login() {
-    alert("Login successful!");
+function login(event){
+    event.preventDefault();
+    alert("Demo login only. No account was authenticated.");
 }
 
-function showRegister() {
-
-    document.getElementById("app").innerHTML = `
-    <div class="login">
+function showRegister(){
+    document.getElementById("app").innerHTML=`
+    <div class="panel">
         <h2>Create Account</h2>
-        <input placeholder="Full Name">
-        <input placeholder="Email">
-        <input type="password" placeholder="Password">
-        <button onclick="register()">Register</button>
+        <form onsubmit="register(event)">
+            <label>Full Name</label>
+            <input required placeholder="Full name">
+            <label>Email</label>
+            <input type="email" required placeholder="Email address">
+            <label>Password</label>
+            <input type="password" required minlength="6" placeholder="At least 6 characters">
+            <button class="primary" type="submit">Register</button>
+        </form>
+        <p class="note">Demo only: registration details are not saved.</p>
     </div>`;
 }
 
-function register() {
-    alert("Registration successful!");
+function register(event){
+    event.preventDefault();
+    alert("Demo registration only. No account was created.");
 }
 
 showProducts();
-
+updateCartCount();
 </script>
-
 </body>
 </html>
+```
