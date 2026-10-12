@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Harshi Mart</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #6c2bd9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 25px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card button {
+            background: #6c2bd9;
+            color: white;
+            border: 0;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .login {
+            background: white;
+            max-width: 350px;
+            margin: 25px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px;
+        }
+
+        .login button {
+            padding: 10px 30px;
+            background: #6c2bd9;
+            color: white;
+            border: 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ HARSHI MART</h1>
+    <p>Your Online Shopping Store</p>
+</header>
+
+<nav>
+    <button onclick="showProducts()">Products</button>
+    <button onclick="showLogin()">Login</button>
+    <button onclick="showRegister()">Register</button>
+    <button onclick="showCart()">🛒 Cart</button>
+</nav>
+
+<div class="container" id="app">
+
+    <h2>Welcome to Harshi Mart</h2>
+    <p>Quality products at affordable prices.</p>
+
+    <div class="products" id="products"></div>
+
+</div>
+
+<script>
+
+let cart = [];
+
+const products = [
+    ["Laptop",57000,"https://images.unsplash.com/photo-1496181133206-80ce9b88a853"],
+    ["Mouse",800,"https://images.unsplash.com/photo-1527814050087-3793815479db"],
+    ["Keyboard",1200,"https://images.unsplash.com/photo-1587829741301-dc798b83add3"],
+    ["Headphones",1800,"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"],
+    ["Smart Watch",2500,"https://images.unsplash.com/photo-1523275335684-37898b6baf30"],
+    ["Backpack",1500,"https://images.unsplash.com/photo-1553062407-98eeb64c6a62"],
+    ["Shoes",2200,"https://images.unsplash.com/photo-1542291026-7eec264c27ff"],
+    ["Kurti",1500,"https://images.unsplash.com/photo-1610030469983-98e550d6193c"],
+    ["T-Shirt",900,"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"],
+    ["Sunglasses",700,"https://images.unsplash.com/photo-1511499767150-a48a237f0083"]
+];
+
+function showProducts() {
+
+    document.getElementById("app").innerHTML =
+    "<h2>Our Products</h2><div class='products' id='products'></div>";
+
+    let html = "";
+
+    products.forEach((p,i) => {
+
+        html += `
+        <div class="card">
+            <img src="${p[2]}?auto=format&fit=crop&w=400&q=80">
+            <h3>${p[0]}</h3>
+            <p>₹${p[1]}</p>
+            <button onclick="addCart(${i})">Add to Cart</button>
+        </div>`;
+    });
+
+    document.getElementById("products").innerHTML = html;
+}
+
+function addCart(i) {
+    cart.push(products[i]);
+    alert(products[i][0] + " added to cart!");
+}
+
+function showCart() {
+
+    let html = "<h2>🛒 Your Cart</h2>";
+
+    if(cart.length === 0) {
+        html += "<p>Your cart is empty.</p>";
+    } else {
+        cart.forEach(p => {
+            html += `<p>${p[0]} - ₹${p[1]}</p>`;
+        });
+    }
+
+    document.getElementById("app").innerHTML = html;
+}
+
+function showLogin() {
+
+    document.getElementById("app").innerHTML = `
+    <div class="login">
+        <h2>Login</h2>
+        <input id="loginUser" placeholder="Username">
+        <input id="loginPass" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>`;
+}
+
+function login() {
+    alert("Login successful!");
+}
+
+function showRegister() {
+
+    document.getElementById("app").innerHTML = `
+    <div class="login">
+        <h2>Create Account</h2>
+        <input placeholder="Full Name">
+        <input placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button onclick="register()">Register</button>
+    </div>`;
+}
+
+function register() {
+    alert("Registration successful!");
+}
+
+showProducts();
+
+</script>
+
+</body>
+</html>

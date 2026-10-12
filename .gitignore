@@ -1,0 +1,7 @@
+build-mingw/
+build/
+vcpkg_installed/
+HarshiMart.exe
+*.dll
+*.exe
+.env
